@@ -22,12 +22,6 @@ async function getDashboardData(userId: string) {
     prisma.questionAnswer.count({ where: { userId } }),
   ])
 
-  // Domain stats from answered questions
-  const domainAnswers = await prisma.questionAnswer.groupBy({
-    by: [],
-    where: { userId },
-  })
-
   // Per-domain stats
   const domainStats = await prisma.$queryRaw<Array<{ domain: string; total: bigint; correct: bigint }>>`
     SELECT q.domain,
