@@ -1,0 +1,190 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  xp            Int       @default(0)
+  level         Int       @default(1)
+  streakDays    Int       @default(0)
+  lastActivityAt DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  enrollments   Enrollment[]
+  examSessions  ExamSession[]
+  questionAnswers QuestionAnswer[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Certification {
+  id          String  @id @default(cuid())
+  code        String  @unique  // "PL-300"
+  name        String           // "Power BI Data Analyst"
+  provider    String           // "Microsoft"
+  category    String           // "Data & Analytics"
+  level       String           // "Débutant" | "Intermédiaire" | "Avancé"
+  icon        String  @default("📊")
+  color       String  @default("#185FA5")
+  durationHours Int   @default(40)
+  passScore   Int     @default(70) // percentage
+  description String? @db.Text
+  createdAt   DateTime @default(now())
+
+  modules     Module[]
+  enrollments Enrollment[]
+  examSessions ExamSession[]
+  questions   Question[]
+}
+
+model Module {
+  id              String  @id @default(cuid())
+  certificationId String
+  order           Int
+  title           String
+  description     String? @db.Text
+  durationMin     Int     @default(60)
+  createdAt       DateTime @default(now())
+
+  certification   Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  lessons         Lesson[]
+  moduleProgress  ModuleProgress[]
+}
+
+model Lesson {
+  id          String  @id @default(cuid())
+  moduleId    String
+  order       Int
+  title       String
+  content     String  @db.Text
+  durationMin Int     @default(15)
+  type        String  @default("text") // "text" | "video" | "quiz"
+  createdAt   DateTime @default(now())
+
+  module      Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+}
+
+model Enrollment {
+  id              String   @id @default(cuid())
+  userId          String
+  certificationId String
+  enrolledAt      DateTime @default(now())
+  completedAt     DateTime?
+
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  certification   Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  moduleProgress  ModuleProgress[]
+
+  @@unique([userId, certificationId])
+}
+
+model ModuleProgress {
+  id           String   @id @default(cuid())
+  enrollmentId String
+  moduleId     String
+  completedAt  DateTime?
+  score        Int?
+
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  module       Module     @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@unique([enrollmentId, moduleId])
+}
+
+model Question {
+  id              String   @id @default(cuid())
+  certificationId String
+  domain          String   // "DAX" | "Power Query" etc.
+  type            String   // "single" | "multi"
+  difficulty      String   // "Facile" | "Intermédiaire" | "Difficile"
+  text            String   @db.Text
+  choices         Json     // string[]
+  correctAnswers  Json     // number[] (indices)
+  explanation     String   @db.Text
+  createdAt       DateTime @default(now())
+
+  certification   Certification    @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  examQuestions   ExamQuestion[]
+  answers         QuestionAnswer[]
+}
+
+model ExamSession {
+  id              String    @id @default(cuid())
+  userId          String
+  certificationId String
+  status          String    @default("in_progress") // "in_progress" | "completed" | "abandoned"
+  mode            String    @default("practice") // "practice" | "exam"
+  totalQuestions  Int
+  timeLimitSec    Int?
+  startedAt       DateTime  @default(now())
+  completedAt     DateTime?
+  score           Int?      // percentage 0-100
+  passed          Boolean?
+  timeSpentSec    Int?
+
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  certification   Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  examQuestions   ExamQuestion[]
+}
+
+model ExamQuestion {
+  id            String   @id @default(cuid())
+  examSessionId String
+  questionId    String
+  order         Int
+  userAnswer    Json?    // number[] (selected indices)
+  isCorrect     Boolean?
+  answeredAt    DateTime?
+
+  examSession   ExamSession @relation(fields: [examSessionId], references: [id], onDelete: Cascade)
+  question      Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model QuestionAnswer {
+  id         String   @id @default(cuid())
+  userId     String
+  questionId String
+  isCorrect  Boolean
+  answeredAt DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}

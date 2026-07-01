@@ -1,0 +1,59 @@
+/* src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand */
+  --blue: #185FA5;
+  --blue-lt: #E6F1FB;
+  --blue-dk: #0C447C;
+  --purple: #534AB7;
+  --purple-lt: #EEEDFE;
+  --teal: #0F6E56;
+  --teal-lt: #E1F5EE;
+  --amber: #BA7517;
+  --amber-lt: #FAEEDA;
+  --red: #A32D2D;
+  --red-lt: #FCEBEB;
+  --green: #3B6D11;
+  --green-lt: #EAF3DE;
+
+  /* Surfaces */
+  --surface-0: #f5f5f3;
+  --surface-1: #f1efea;
+  --surface-2: #ffffff;
+  --border: #e5e3dc;
+
+  /* Text */
+  --text-primary: #1a1a18;
+  --text-secondary: #5c5c58;
+  --text-muted: #9c9b95;
+
+  /* Sidebar */
+  --sidebar-w: 220px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--surface-0);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* Focus visible */
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
