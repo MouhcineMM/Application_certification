@@ -1,5 +1,6 @@
 // src/app/dashboard/progress/ProgressClient.tsx
 'use client'
+import { Lightbulb } from 'lucide-react'
 
 const DOMAIN_COLORS: Record<string, string> = {
   'DAX': '#185FA5',
@@ -164,8 +165,9 @@ export default function ProgressClient({ examSessions, domainStats }: { examSess
       {/* Recommandations */}
       {recommendations.length > 0 && (
         <div style={{ background: '#FAEEDA', border: '0.5px solid #BA7517', borderRadius: 10, padding: '14px 16px' }}>
-          <div style={{ fontSize: 12, fontWeight: 600, color: '#633806', marginBottom: 8 }}>
-            💡 Recommandations personnalisées
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: '#633806', marginBottom: 8 }}>
+            <Lightbulb size={14} strokeWidth={1.9} />
+            Recommandations personnalisées
           </div>
           <ul style={{ paddingLeft: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
             {recommendations.slice(0, 3).map((r, i) => (
