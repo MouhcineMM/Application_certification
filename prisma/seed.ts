@@ -25,7 +25,7 @@ async function main() {
   // PL-300 Certification
   const pl300 = await prisma.certification.upsert({
     where: { code: 'PL-300' },
-    update: {},
+    update: { color: '#2563EB' },
     create: {
       code: 'PL-300',
       name: 'Power BI Data Analyst',
@@ -33,7 +33,7 @@ async function main() {
       category: 'Data & Analytics',
       level: 'Intermédiaire',
       icon: 'bar-chart-3',
-      color: '#185FA5',
+      color: '#2563EB',
       durationHours: 40,
       passScore: 70,
       description: 'Devenez un expert Power BI certifié Microsoft. Cette certification valide vos compétences en modélisation de données, DAX, Power Query et création de rapports professionnels.',
@@ -43,7 +43,7 @@ async function main() {
   // AZ-900
   const az900 = await prisma.certification.upsert({
     where: { code: 'AZ-900' },
-    update: {},
+    update: { color: '#334155' },
     create: {
       code: 'AZ-900',
       name: 'Azure Fundamentals',
@@ -51,7 +51,7 @@ async function main() {
       category: 'Cloud',
       level: 'Débutant',
       icon: 'cloud',
-      color: '#0F6E56',
+      color: '#334155',
       durationHours: 20,
       passScore: 70,
       description: 'Maîtrisez les fondamentaux du cloud Azure : services, tarification, SLA et cycle de vie.',
@@ -61,7 +61,7 @@ async function main() {
   // AWS Cloud Practitioner
   await prisma.certification.upsert({
     where: { code: 'CLF-C02' },
-    update: {},
+    update: { color: '#B45309' },
     create: {
       code: 'CLF-C02',
       name: 'AWS Cloud Practitioner',
@@ -69,7 +69,7 @@ async function main() {
       category: 'Cloud',
       level: 'Débutant',
       icon: 'server',
-      color: '#BA7517',
+      color: '#B45309',
       durationHours: 25,
       passScore: 70,
     },
@@ -77,7 +77,7 @@ async function main() {
 
   await prisma.certification.upsert({
     where: { code: 'SC-900' },
-    update: {},
+    update: { color: '#B91C1C' },
     create: {
       code: 'SC-900',
       name: 'Security, Compliance & Identity',
@@ -85,7 +85,7 @@ async function main() {
       category: 'Security',
       level: 'Débutant',
       icon: 'shield-check',
-      color: '#A32D2D',
+      color: '#B91C1C',
       durationHours: 18,
       passScore: 70,
     },
@@ -93,7 +93,7 @@ async function main() {
 
   await prisma.certification.upsert({
     where: { code: 'DP-900' },
-    update: {},
+    update: { color: '#64748B' },
     create: {
       code: 'DP-900',
       name: 'Azure Data Fundamentals',
@@ -101,7 +101,7 @@ async function main() {
       category: 'Data & Analytics',
       level: 'Débutant',
       icon: 'database',
-      color: '#534AB7',
+      color: '#64748B',
       durationHours: 22,
       passScore: 70,
     },
@@ -109,7 +109,7 @@ async function main() {
 
   await prisma.certification.upsert({
     where: { code: 'PMP' },
-    update: {},
+    update: { color: '#15803D' },
     create: {
       code: 'PMP',
       name: 'Project Management Professional',
@@ -117,7 +117,7 @@ async function main() {
       category: 'Management',
       level: 'Avancé',
       icon: 'clipboard-list',
-      color: '#3B6D11',
+      color: '#15803D',
       durationHours: 60,
       passScore: 61,
     },
