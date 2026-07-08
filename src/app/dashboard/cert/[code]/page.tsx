@@ -50,7 +50,7 @@ export default async function CertDetailPage({ params }: { params: { code: strin
     <div style={{ padding: '20px 24px', maxWidth: 860 }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-        <div style={{ width: 44, height: 44, borderRadius: 10, background: cert.color + '18', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 44, height: 44, borderRadius: 12, background: cert.color + '18', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <CertIcon icon={cert.icon} size={22} color={cert.color} />
         </div>
         <div style={{ flex: 1 }}>
@@ -75,11 +75,11 @@ export default async function CertDetailPage({ params }: { params: { code: strin
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 20 }}>
         {[
           { label: 'Progression', val: progress + '%', color: cert.color },
-          { label: 'Modules', val: `${completedModuleIds.size}/${cert.modules.length}`, color: '#534AB7' },
-          { label: 'Questions', val: String(cert._count.questions), color: '#0F6E56' },
-          { label: 'Meilleur score', val: bestScore !== null ? bestScore + '%' : '—', color: bestScore && bestScore >= cert.passScore ? '#3B6D11' : '#BA7517' },
+          { label: 'Modules', val: `${completedModuleIds.size}/${cert.modules.length}`, color: '#64748B' },
+          { label: 'Questions', val: String(cert._count.questions), color: '#334155' },
+          { label: 'Meilleur score', val: bestScore !== null ? bestScore + '%' : '—', color: bestScore && bestScore >= cert.passScore ? '#15803D' : '#B45309' },
         ].map(m => (
-          <div key={m.label} style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '12px 14px', textAlign: 'center' }}>
+          <div key={m.label} style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 14, padding: '12px 14px', textAlign: 'center' }}>
             <div style={{ fontSize: 22, fontWeight: 600, color: m.color }}>{m.val}</div>
             <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>{m.label}</div>
           </div>
@@ -90,26 +90,26 @@ export default async function CertDetailPage({ params }: { params: { code: strin
         {/* Modules */}
         <div>
           <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 10 }}>Programme de formation</div>
-          <div style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 10, overflow: 'hidden' }}>
+          <div style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 14, overflow: 'hidden' }}>
             {cert.modules.map((mod, i) => {
               const done = completedModuleIds.has(mod.id)
               return (
                 <div key={mod.id} style={{
                   display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px',
                   borderBottom: i < cert.modules.length - 1 ? '0.5px solid var(--border)' : 'none',
-                  background: done ? '#F8FCF4' : 'transparent',
+                  background: done ? '#F0FDF4' : 'transparent',
                 }}>
                   <div style={{
                     width: 22, height: 22, borderRadius: '50%', flexShrink: 0,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: done ? '#EAF3DE' : 'var(--surface-1)',
-                    border: '0.5px solid ' + (done ? '#3B6D11' : 'var(--border)'),
-                    fontSize: 11, fontWeight: 600, color: done ? '#3B6D11' : 'var(--text-muted)',
+                    background: done ? '#F0FDF4' : 'var(--surface-1)',
+                    border: '0.5px solid ' + (done ? '#15803D' : 'var(--border)'),
+                    fontSize: 11, fontWeight: 600, color: done ? '#15803D' : 'var(--text-muted)',
                   }}>
                     {done ? <Check size={12} strokeWidth={2.5} /> : mod.order}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: done ? '#3B6D11' : 'var(--text-primary)' }}>{mod.title}</div>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: done ? '#15803D' : 'var(--text-primary)' }}>{mod.title}</div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{mod.durationMin} min</div>
                   </div>
                 </div>
@@ -121,7 +121,7 @@ export default async function CertDetailPage({ params }: { params: { code: strin
         {/* Historique examens + Info */}
         <div>
           <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 10 }}>Historique des examens</div>
-          <div style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 10, overflow: 'hidden', marginBottom: 14 }}>
+          <div style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 14, overflow: 'hidden', marginBottom: 14 }}>
             {examSessions.length === 0 ? (
               <div style={{ padding: '20px', textAlign: 'center', fontSize: 12, color: 'var(--text-muted)' }}>
                 Aucun examen passé encore.<br />
@@ -137,7 +137,7 @@ export default async function CertDetailPage({ params }: { params: { code: strin
                       {s.timeSpentSec ? ` • ${Math.floor(s.timeSpentSec / 60)}m` : ''}
                     </div>
                   </div>
-                  <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 10, background: s.passed ? '#EAF3DE' : '#FCEBEB', color: s.passed ? '#3B6D11' : '#A32D2D' }}>
+                  <span style={{ fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 10, background: s.passed ? '#F0FDF4' : '#FEF2F2', color: s.passed ? '#15803D' : '#B91C1C' }}>
                     {s.passed ? 'Réussi' : 'Échoué'}
                   </span>
                 </div>
@@ -147,10 +147,10 @@ export default async function CertDetailPage({ params }: { params: { code: strin
 
           {/* Info certification */}
           {cert.description && (
-            <div style={{ background: 'var(--blue-lt)', border: '0.5px solid #c0d8f0', borderRadius: 10, padding: '14px' }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: '#0C447C', marginBottom: 6 }}>À propos de cette certification</div>
-              <p style={{ fontSize: 12, color: '#1a3a5c', lineHeight: 1.6 }}>{cert.description}</p>
-              <div style={{ marginTop: 10, fontSize: 11, color: '#0C447C', display: 'flex', alignItems: 'center', gap: 5 }}>
+            <div style={{ background: 'var(--blue-lt)', border: '0.5px solid #BFDBFE', borderRadius: 14, padding: '14px' }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: '#1D4ED8', marginBottom: 6 }}>À propos de cette certification</div>
+              <p style={{ fontSize: 12, color: '#1E3A8A', lineHeight: 1.6 }}>{cert.description}</p>
+              <div style={{ marginTop: 10, fontSize: 11, color: '#1D4ED8', display: 'flex', alignItems: 'center', gap: 5 }}>
                 <CircleCheck size={13} strokeWidth={1.9} />
                 Seuil de réussite : {cert.passScore}%
               </div>
