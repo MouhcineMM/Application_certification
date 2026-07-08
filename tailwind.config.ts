@@ -9,6 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        ink: {
+          DEFAULT: '#12151C',
+          soft: '#1D212C',
+        },
+        accent: {
+          DEFAULT: '#4ADEDE',
+          dark: '#0C8F8F',
+          light: '#E3FBFB',
+        },
         brand: {
           50: '#E6F1FB',
           100: '#CCE3F7',
@@ -17,13 +26,14 @@ const config: Config = {
           700: '#0C447C',
         },
         surface: {
-          0: '#f5f5f3',
-          1: '#f1efea',
+          0: '#F7F7F5',
+          1: '#F1EFE8',
           2: '#ffffff',
         },
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'monospace'],
       },
     },
