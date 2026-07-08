@@ -1,6 +1,8 @@
 // src/app/dashboard/exam/ExamSetupClient.tsx
 'use client'
 import { useState, useEffect, useCallback } from 'react'
+import { BookOpenCheck, Timer, Check, X, PartyPopper, BookOpen, Play, ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react'
+import { CertIcon } from '@/lib/cert-icons'
 
 interface Cert {
   id: string
@@ -160,12 +162,12 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
                     background: selectedCert === c.id ? c.color + '10' : 'transparent',
                     cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', transition: 'all 0.15s',
                   }}>
-                  <span style={{ fontSize: 18 }}>{c.icon}</span>
+                  <CertIcon icon={c.icon} size={18} color={selectedCert === c.id ? c.color : 'var(--text-muted)'} />
                   <div>
                     <div style={{ fontSize: 12, fontWeight: 600, color: selectedCert === c.id ? c.color : 'var(--text-primary)' }}>{c.code}</div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{c._count.questions} questions disponibles</div>
                   </div>
-                  {selectedCert === c.id && <span style={{ marginLeft: 'auto', color: c.color, fontSize: 14 }}>✓</span>}
+                  {selectedCert === c.id && <Check size={15} strokeWidth={2.5} style={{ marginLeft: 'auto', color: c.color }} />}
                 </button>
               ))}
             </div>
@@ -200,8 +202,8 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
               {[
-                { val: 'practice', label: 'Révision', desc: 'Feedback immédiat après chaque réponse', icon: '📖' },
-                { val: 'exam', label: 'Examen', desc: 'Chronomètre, résultats à la fin uniquement', icon: '⏱' },
+                { val: 'practice', label: 'Révision', desc: 'Feedback immédiat après chaque réponse', Icon: BookOpen },
+                { val: 'exam', label: 'Examen', desc: 'Chronomètre, résultats à la fin uniquement', Icon: Timer },
               ].map(m => (
                 <button key={m.val} onClick={() => setMode(m.val as any)}
                   style={{
@@ -210,7 +212,7 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
                     background: mode === m.val ? '#E6F1FB' : 'transparent',
                     cursor: 'pointer', fontFamily: 'inherit',
                   }}>
-                  <div style={{ fontSize: 18, marginBottom: 4 }}>{m.icon}</div>
+                  <m.Icon size={18} strokeWidth={1.8} style={{ marginBottom: 4, color: mode === m.val ? '#0C447C' : 'var(--text-secondary)' }} />
                   <div style={{ fontSize: 12, fontWeight: 600, color: mode === m.val ? '#0C447C' : 'var(--text-primary)' }}>{m.label}</div>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2, lineHeight: 1.4 }}>{m.desc}</div>
                 </button>
@@ -220,12 +222,15 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
 
           <button onClick={startExam} disabled={starting}
             style={{
-              width: '100%', padding: '10px', borderRadius: 8,
-              background: starting ? 'var(--border)' : '#185FA5',
-              color: '#fff', border: 'none', cursor: starting ? 'not-allowed' : 'pointer',
-              fontSize: 14, fontWeight: 600, fontFamily: 'inherit',
+              width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
+              padding: '10px', borderRadius: 8,
+              background: starting ? 'var(--border)' : 'var(--ink)',
+              color: starting ? 'var(--text-muted)' : 'var(--accent)',
+              border: 'none', cursor: starting ? 'not-allowed' : 'pointer',
+              fontSize: 14, fontWeight: 500, fontFamily: 'inherit',
             }}>
-            {starting ? 'Préparation...' : `▶ Démarrer (${numQuestions} questions)`}
+            <Play size={14} strokeWidth={2} fill="currentColor" />
+            {starting ? 'Préparation...' : `Démarrer (${numQuestions} questions)`}
           </button>
         </div>
       </div>
@@ -238,19 +243,29 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
     return (
       <div style={{ padding: '24px', maxWidth: 680 }}>
         <div style={{ textAlign: 'center', padding: '28px 0 20px' }}>
-          <div style={{ fontSize: 52, marginBottom: 8 }}>{passed ? '🎉' : '📚'}</div>
-          <div style={{ fontSize: 22, fontWeight: 600, marginBottom: 4 }}>{passed ? 'Examen réussi !' : 'Continuez vos révisions'}</div>
+          <div style={{
+            width: 64, height: 64, borderRadius: '50%', margin: '0 auto 12px',
+            background: passed ? '#EAF3DE' : '#F1EFE8',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            {passed
+              ? <PartyPopper size={30} strokeWidth={1.8} color="#3B6D11" />
+              : <BookOpen size={30} strokeWidth={1.8} color="var(--text-secondary)" />}
+          </div>
+          <div className="font-display" style={{ fontSize: 21, fontWeight: 500, marginBottom: 4 }}>{passed ? 'Examen réussi !' : 'Continuez vos révisions'}</div>
           <div style={{ color: 'var(--text-secondary)', fontSize: 13 }}>{score}% de bonnes réponses • Seuil : 70%</div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginBottom: 20 }}>
           {[
-            { v: score + '%', l: 'Score final', color: passed ? '#0F6E56' : '#A32D2D' },
-            { v: `${correctCount}/${totalQuestions}`, l: 'Bonnes réponses', color: '#185FA5' },
-            { v: passed ? '✅' : '❌', l: passed ? 'Certification' : 'À repasser', color: passed ? '#3B6D11' : '#A32D2D' },
+            { v: score + '%', l: 'Score final', color: passed ? '#0F6E56' : '#A32D2D', Icon: null },
+            { v: `${correctCount}/${totalQuestions}`, l: 'Bonnes réponses', color: '#185FA5', Icon: null },
+            { v: null, l: passed ? 'Certification' : 'À repasser', color: passed ? '#3B6D11' : '#A32D2D', Icon: passed ? Check : X },
           ].map(m => (
             <div key={m.l} style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 8, padding: '12px', textAlign: 'center' }}>
-              <div style={{ fontSize: 24, fontWeight: 700, color: m.color }}>{m.v}</div>
+              <div className="font-display" style={{ fontSize: 22, fontWeight: 500, color: m.color, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 28 }}>
+                {m.Icon ? <m.Icon size={22} strokeWidth={2.2} /> : m.v}
+              </div>
               <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{m.l}</div>
             </div>
           ))}
@@ -279,8 +294,8 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
             <div style={{ padding: '10px 16px', borderBottom: '0.5px solid var(--border)', fontSize: 12, fontWeight: 600 }}>Révision des réponses</div>
             {results.questionsReview.map((q: any, i: number) => (
               <div key={i} style={{ padding: '10px 16px', borderBottom: '0.5px solid var(--border)', display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                <div style={{ width: 20, height: 20, borderRadius: '50%', background: q.isCorrect ? '#EAF3DE' : '#FCEBEB', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 11 }}>
-                  {q.isCorrect ? '✓' : '✗'}
+                <div style={{ width: 20, height: 20, borderRadius: '50%', background: q.isCorrect ? '#EAF3DE' : '#FCEBEB', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  {q.isCorrect ? <Check size={11} strokeWidth={2.5} color="#3B6D11" /> : <X size={11} strokeWidth={2.5} color="#A32D2D" />}
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 12, fontWeight: 500, marginBottom: 2 }}>Q{i + 1}. {q.text.slice(0, 70)}…</div>
@@ -300,7 +315,7 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
             Reconfigurer
           </button>
           <button onClick={() => { setPhase('setup'); setTimeout(startExam, 100) }}
-            style={{ flex: 1, padding: '9px', borderRadius: 7, background: '#185FA5', color: '#fff', border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 500, fontFamily: 'inherit' }}>
+            style={{ flex: 1, padding: '9px', borderRadius: 7, background: 'var(--ink)', color: 'var(--accent)', border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 500, fontFamily: 'inherit' }}>
             Recommencer
           </button>
         </div>
@@ -330,8 +345,9 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
       {/* Top bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button onClick={() => setPhase('setup')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 13, fontFamily: 'inherit', padding: 0 }}>
-            ✕ Quitter
+          <button onClick={() => setPhase('setup')} style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 13, fontFamily: 'inherit', padding: 0 }}>
+            <X size={13} strokeWidth={2} />
+            Quitter
           </button>
           <span style={{ color: 'var(--border)' }}>|</span>
           <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Question {idx + 1}/{total}</span>
@@ -339,8 +355,9 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {timeLeft !== null && (
-            <span style={{ fontSize: 12, color: timeLeft < 60 ? '#A32D2D' : 'var(--text-secondary)', fontWeight: timeLeft < 60 ? 600 : 400 }}>
-              ⏱ {mm}:{ss}
+            <span className="font-mono" style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: timeLeft < 60 ? '#A32D2D' : 'var(--text-secondary)', fontWeight: timeLeft < 60 ? 600 : 400 }}>
+              <Timer size={13} strokeWidth={1.9} />
+              {mm}:{ss}
             </span>
           )}
           <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{answered}/{total} répondues</span>
@@ -384,7 +401,9 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   background: sel ? '#185FA5' : 'transparent',
                 }}>
-                  {sel && <span style={{ color: '#fff', fontSize: 9, fontWeight: 700 }}>{q.type === 'multi' ? '✓' : '●'}</span>}
+                  {sel && (q.type === 'multi'
+                    ? <Check size={11} strokeWidth={3} color="#fff" />
+                    : <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#fff' }} />)}
                 </div>
                 <span style={{ fontSize: 13, lineHeight: 1.5, color: tc, fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}>{ch}</span>
               </button>
@@ -400,8 +419,9 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
           border: '0.5px solid ' + (isCorrect() ? '#3B6D11' : '#A32D2D'),
           borderRadius: 10, padding: '14px 16px', marginBottom: 12,
         }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: isCorrect() ? '#3B6D11' : '#A32D2D', marginBottom: 6 }}>
-            {isCorrect() ? '✓ Bonne réponse !' : '✗ Réponse incorrecte'}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 600, color: isCorrect() ? '#3B6D11' : '#A32D2D', marginBottom: 6 }}>
+            {isCorrect() ? <Check size={15} strokeWidth={2.5} /> : <X size={15} strokeWidth={2.5} />}
+            {isCorrect() ? 'Bonne réponse !' : 'Réponse incorrecte'}
           </div>
           <p style={{ fontSize: 12, lineHeight: 1.6, color: 'var(--text-primary)' }}>{q.explanation}</p>
         </div>
@@ -411,8 +431,9 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
       <div style={{ display: 'flex', gap: 8 }}>
         <button onClick={() => { setIdx(i => Math.max(0, i - 1)); setSubmitted(false) }}
           disabled={idx === 0}
-          style={{ padding: '8px 14px', borderRadius: 6, border: '0.5px solid var(--border)', background: 'transparent', cursor: idx === 0 ? 'not-allowed' : 'pointer', fontSize: 12, color: 'var(--text-secondary)', opacity: idx === 0 ? 0.4 : 1, fontFamily: 'inherit' }}>
-          ← Précédent
+          style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 14px', borderRadius: 6, border: '0.5px solid var(--border)', background: 'transparent', cursor: idx === 0 ? 'not-allowed' : 'pointer', fontSize: 12, color: 'var(--text-secondary)', opacity: idx === 0 ? 0.4 : 1, fontFamily: 'inherit' }}>
+          <ArrowLeft size={13} strokeWidth={2} />
+          Précédent
         </button>
         <div style={{ flex: 1 }} />
         {mode === 'practice' && !submitted && hasAns && (
@@ -423,13 +444,15 @@ export default function ExamSetupClient({ certifications }: { certifications: Ce
         )}
         {idx < total - 1 ? (
           <button onClick={() => { setIdx(i => i + 1); setSubmitted(false) }}
-            style={{ padding: '8px 14px', borderRadius: 6, background: '#185FA5', color: '#fff', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 500, fontFamily: 'inherit' }}>
-            Suivant →
+            style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 14px', borderRadius: 6, background: 'var(--ink)', color: 'var(--accent)', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 500, fontFamily: 'inherit' }}>
+            Suivant
+            <ArrowRight size={13} strokeWidth={2} />
           </button>
         ) : (
           <button onClick={finishExam} disabled={submitting}
-            style={{ padding: '8px 16px', borderRadius: 6, background: '#3B6D11', color: '#fff', border: 'none', cursor: submitting ? 'not-allowed' : 'pointer', fontSize: 12, fontWeight: 600, fontFamily: 'inherit' }}>
-            {submitting ? 'Calcul...' : '✓ Terminer l\'examen'}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 6, background: '#3B6D11', color: '#fff', border: 'none', cursor: submitting ? 'not-allowed' : 'pointer', fontSize: 12, fontWeight: 600, fontFamily: 'inherit' }}>
+            {!submitting && <Check size={13} strokeWidth={2.5} />}
+            {submitting ? 'Calcul...' : 'Terminer l\'examen'}
           </button>
         )}
       </div>
