@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs'
 const prisma = new PrismaClient()
 
 async function main() {
-  console.log('🌱 Seeding database...')
+  console.log('Seeding database...')
 
   // Demo user
   const hashedPassword = await bcrypt.hash('password123', 12)
@@ -32,7 +32,7 @@ async function main() {
       provider: 'Microsoft',
       category: 'Data & Analytics',
       level: 'Intermédiaire',
-      icon: '📊',
+      icon: 'bar-chart-3',
       color: '#185FA5',
       durationHours: 40,
       passScore: 70,
@@ -50,7 +50,7 @@ async function main() {
       provider: 'Microsoft',
       category: 'Cloud',
       level: 'Débutant',
-      icon: '☁️',
+      icon: 'cloud',
       color: '#0F6E56',
       durationHours: 20,
       passScore: 70,
@@ -68,7 +68,7 @@ async function main() {
       provider: 'AWS',
       category: 'Cloud',
       level: 'Débutant',
-      icon: '🔶',
+      icon: 'server',
       color: '#BA7517',
       durationHours: 25,
       passScore: 70,
@@ -84,7 +84,7 @@ async function main() {
       provider: 'Microsoft',
       category: 'Security',
       level: 'Débutant',
-      icon: '🔐',
+      icon: 'shield-check',
       color: '#A32D2D',
       durationHours: 18,
       passScore: 70,
@@ -100,7 +100,7 @@ async function main() {
       provider: 'Microsoft',
       category: 'Data & Analytics',
       level: 'Débutant',
-      icon: '🗄️',
+      icon: 'database',
       color: '#534AB7',
       durationHours: 22,
       passScore: 70,
@@ -116,7 +116,7 @@ async function main() {
       provider: 'PMI',
       category: 'Management',
       level: 'Avancé',
-      icon: '📋',
+      icon: 'clipboard-list',
       color: '#3B6D11',
       durationHours: 60,
       passScore: 61,
@@ -505,8 +505,8 @@ async function main() {
     })
   }
 
-  console.log('✅ Seed terminé !')
-  console.log('👤 Utilisateur démo : demo@certprep.fr / password123')
+  console.log('Seed terminé !')
+  console.log('Utilisateur démo : demo@certprep.fr / password123')
 }
 
 main()
