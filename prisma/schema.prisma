@@ -62,7 +62,7 @@ model Certification {
   provider    String           // "Microsoft"
   category    String           // "Data & Analytics"
   level       String           // "Débutant" | "Intermédiaire" | "Avancé"
-  icon        String  @default("📊")
+  icon        String  @default("bar-chart-3") // lucide-react icon key, see src/lib/cert-icons.tsx
   color       String  @default("#185FA5")
   durationHours Int   @default(40)
   passScore   Int     @default(70) // percentage
