@@ -3,47 +3,49 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Design tokens — refonte CertPrep Pro (Stripe/Linear inspired)
+  Palette Slate + un unique bleu d'action, limitée volontairement.
+  Variable names kept identical to the previous theme so every inline
+  style (`var(--x)`) across the app repaints automatically.
+*/
 :root {
-  /* Brand */
-  --ink: #12151C;
-  --ink-soft: #1D212C;
-  --accent: #4ADEDE;
-  --accent-dk: #0C8F8F;
-  --accent-lt: #E3FBFB;
+  /* Primary action (was the dark "ink" button — now the brief's blue-600) */
+  --ink: #2563EB;         /* bouton / lien principal — bg */
+  --ink-soft: #1D4ED8;    /* hover */
+  --accent: #FFFFFF;      /* texte sur bouton principal */
+  --accent-dk: #1D4ED8;   /* anneau de focus */
+  --accent-lt: #EFF6FF;
 
-  /* Semantic */
-  --blue: #185FA5;
-  --blue-lt: #E6F1FB;
-  --blue-dk: #0C447C;
-  --purple: #534AB7;
-  --purple-lt: #EEEDFE;
-  --teal: #0F6E56;
-  --teal-lt: #E1F5EE;
-  --amber: #BA7517;
-  --amber-lt: #FAEEDA;
-  --red: #A32D2D;
-  --red-lt: #FCEBEB;
-  --green: #3B6D11;
-  --green-lt: #EAF3DE;
+  /* Semantic accents (brief) */
+  --blue: #2563EB;
+  --blue-lt: #EFF6FF;
+  --blue-dk: #1D4ED8;
+  --amber: #F59E0B;
+  --amber-lt: #FFFBEB;
+  --red: #B91C1C;         /* version texte, contraste AA sur fond clair */
+  --red-lt: #FEF2F2;
+  --green: #15803D;       /* version texte, contraste AA sur fond clair */
+  --green-lt: #F0FDF4;
 
   /* Surfaces */
-  --surface-0: #F7F7F5;
-  --surface-1: #F1EFE8;
-  --surface-2: #ffffff;
-  --border: #E5E3DC;
+  --surface-0: #F8FAFC;
+  --surface-1: #F1F5F9;
+  --surface-2: #FFFFFF;
+  --border: #E2E8F0;
 
   /* Text */
-  --text-primary: #12151C;
-  --text-secondary: #5c5c58;
-  --text-muted: #9c9b95;
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --text-muted: #94A3B8;
 
-  /* Sidebar */
-  --sidebar-w: 220px;
-  --sidebar-bg: #12151C;
-  --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-text: #9BA0AC;
-  --sidebar-text-active: #4ADEDE;
-  --sidebar-muted: #7A7F8C;
+  /* Sidebar — thème clair */
+  --sidebar-w: 224px;
+  --sidebar-bg: #FFFFFF;
+  --sidebar-border: #F1F5F9;
+  --sidebar-text: #334155;
+  --sidebar-text-active: #1D4ED8;
+  --sidebar-muted: #94A3B8;
 }
 
 * {
@@ -55,10 +57,12 @@ body {
   color: var(--text-primary);
   font-size: 14px;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 .font-display {
-  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-family: var(--font-display), 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: -0.01em;
 }
 
 .font-mono {
