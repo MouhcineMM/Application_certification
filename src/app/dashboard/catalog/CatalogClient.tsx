@@ -45,9 +45,9 @@ export default function CatalogClient({ certifications, userId }: { certificatio
   }
 
   const levelColor = (level: string) => {
-    if (level === 'Débutant') return { bg: '#EAF3DE', color: '#3B6D11' }
-    if (level === 'Intermédiaire') return { bg: '#E6F1FB', color: '#0C447C' }
-    return { bg: '#FCEBEB', color: '#A32D2D' }
+    if (level === 'Débutant') return { bg: '#F0FDF4', color: '#15803D' }
+    if (level === 'Intermédiaire') return { bg: '#EFF6FF', color: '#1D4ED8' }
+    return { bg: '#FEF2F2', color: '#B91C1C' }
   }
 
   return (
@@ -83,13 +83,13 @@ export default function CatalogClient({ certifications, userId }: { certificatio
               onClick={() => cert.code === 'PL-300' && router.push('/dashboard/cert/pl-300')}
               style={{
                 background: 'var(--surface-2)', border: '0.5px solid var(--border)',
-                borderRadius: 10, padding: '16px', cursor: cert.code === 'PL-300' ? 'pointer' : 'default',
+                borderRadius: 14, padding: '16px', cursor: cert.code === 'PL-300' ? 'pointer' : 'default',
                 transition: 'border-color 0.15s, box-shadow 0.15s',
               }}
               onMouseEnter={e => {
                 if (cert.code === 'PL-300') {
-                  (e.currentTarget as HTMLElement).style.borderColor = '#185FA5'
-                  ;(e.currentTarget as HTMLElement).style.boxShadow = '0 2px 8px rgba(24,95,165,0.1)'
+                  (e.currentTarget as HTMLElement).style.borderColor = '#2563EB'
+                  ;(e.currentTarget as HTMLElement).style.boxShadow = '0 2px 8px rgba(37,99,235,0.1)'
                 }
               }}
               onMouseLeave={e => {
