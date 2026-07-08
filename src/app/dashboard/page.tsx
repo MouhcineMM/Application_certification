@@ -2,6 +2,8 @@
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
+import { GraduationCap, BarChart3, PenLine, Flame } from 'lucide-react'
+import { CertIcon } from '@/lib/cert-icons'
 
 async function getDashboardData(userId: string) {
   const [user, enrollments, examSessions, totalAnswers] = await Promise.all([
@@ -61,28 +63,34 @@ export default async function DashboardPage() {
     <div style={{ padding: '20px 24px', maxWidth: 900 }}>
       {/* Header */}
       <div style={{ marginBottom: 20 }}>
-        <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 2 }}>
-          Bonjour, {user?.name?.split(' ')[0] ?? 'vous'} 👋
+        <div className="font-display" style={{ fontSize: 19, fontWeight: 500, marginBottom: 2 }}>
+          Bonjour, {user?.name?.split(' ')[0] ?? 'vous'}
         </div>
-        <div style={{ color: 'var(--text-secondary)', fontSize: 13, textTransform: 'capitalize' }}>
+        <div style={{ color: 'var(--text-secondary)', fontSize: 13, textTransform: 'capitalize', display: 'flex', alignItems: 'center', gap: 5 }}>
           {today}
-          {(user?.streakDays ?? 0) > 0 && ` • 🔥 ${user?.streakDays} jours de suite`}
+          {(user?.streakDays ?? 0) > 0 && (
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
+              · <Flame size={13} strokeWidth={1.9} color="var(--amber)" /> {user?.streakDays} jours de suite
+            </span>
+          )}
         </div>
       </div>
 
       {/* Métriques */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 20 }}>
         {[
-          { label: 'Certifications suivies', val: String(enrollments.length), icon: '🎓', color: '#185FA5', bg: '#E6F1FB' },
-          { label: 'Score moyen', val: avgScore ? avgScore + '%' : '—', icon: '📊', color: '#0F6E56', bg: '#E1F5EE' },
-          { label: 'Questions répondues', val: String(totalAnswers || 0), icon: '✏️', color: '#534AB7', bg: '#EEEDFE' },
-          { label: 'Streak actuel', val: `${user?.streakDays ?? 0} j`, icon: '🔥', color: '#BA7517', bg: '#FAEEDA' },
+          { label: 'Certifications suivies', val: String(enrollments.length), Icon: GraduationCap, color: '#185FA5', bg: '#E6F1FB' },
+          { label: 'Score moyen', val: avgScore ? avgScore + '%' : '—', Icon: BarChart3, color: '#0F6E56', bg: '#E1F5EE' },
+          { label: 'Questions répondues', val: String(totalAnswers || 0), Icon: PenLine, color: '#534AB7', bg: '#EEEDFE' },
+          { label: 'Streak actuel', val: `${user?.streakDays ?? 0} j`, Icon: Flame, color: '#BA7517', bg: '#FAEEDA' },
         ].map(m => (
           <div key={m.label} style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '12px 14px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-              <div style={{ width: 28, height: 28, borderRadius: 6, background: m.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>{m.icon}</div>
+              <div style={{ width: 28, height: 28, borderRadius: 6, background: m.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <m.Icon size={15} strokeWidth={1.9} color={m.color} />
+              </div>
             </div>
-            <div style={{ fontSize: 22, fontWeight: 600, lineHeight: 1 }}>{m.val}</div>
+            <div className="font-display" style={{ fontSize: 22, fontWeight: 500, lineHeight: 1 }}>{m.val}</div>
             <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 3 }}>{m.label}</div>
           </div>
         ))}
@@ -105,7 +113,7 @@ export default async function DashboardPage() {
                 <div key={enrollment.id} style={{ marginBottom: 12 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                      <span style={{ fontSize: 16 }}>{cert.icon}</span>
+                      <CertIcon icon={cert.icon} size={15} color="var(--text-secondary)" />
                       <div>
                         <div style={{ fontSize: 12, fontWeight: 500 }}>{cert.code}</div>
                         <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{cert.name.slice(0, 24)}</div>
@@ -150,11 +158,13 @@ export default async function DashboardPage() {
             ))
           )}
           <Link href="/dashboard/exam" style={{
-            display: 'block', marginTop: 10, padding: '7px', borderRadius: 6,
-            background: '#185FA5', color: '#fff', textDecoration: 'none',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+            marginTop: 10, padding: '7px', borderRadius: 6,
+            background: 'var(--ink)', color: 'var(--accent)', textDecoration: 'none',
             fontSize: 12, fontWeight: 500, textAlign: 'center',
           }}>
-            ▶ Lancer un examen blanc
+            <PenLine size={12} strokeWidth={2} />
+            Lancer un examen blanc
           </Link>
         </div>
       </div>
