@@ -2,6 +2,8 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { Clock, BookOpen, Target } from 'lucide-react'
+import { CertIcon } from '@/lib/cert-icons'
 
 interface Cert {
   id: string
@@ -62,9 +64,9 @@ export default function CatalogClient({ certifications, userId }: { certificatio
             style={{
               padding: '4px 12px', borderRadius: 12, border: '0.5px solid',
               fontSize: 12, cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500,
-              background: filter === cat ? '#185FA5' : 'transparent',
-              color: filter === cat ? '#fff' : 'var(--text-secondary)',
-              borderColor: filter === cat ? '#185FA5' : 'var(--border)',
+              background: filter === cat ? 'var(--ink)' : 'transparent',
+              color: filter === cat ? 'var(--accent)' : 'var(--text-secondary)',
+              borderColor: filter === cat ? 'var(--ink)' : 'var(--border)',
               transition: 'all 0.15s',
             }}>
             {cat}
@@ -97,8 +99,8 @@ export default function CatalogClient({ certifications, userId }: { certificatio
             >
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 8, background: cert.color + '18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>
-                    {cert.icon}
+                  <div style={{ width: 36, height: 36, borderRadius: 8, background: cert.color + '18', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <CertIcon icon={cert.icon} size={18} color={cert.color} />
                   </div>
                   <div>
                     <div style={{ fontSize: 11, fontWeight: 600, color: cert.color }}>{cert.code}</div>
@@ -113,9 +115,9 @@ export default function CatalogClient({ certifications, userId }: { certificatio
               <div style={{ fontSize: 13, fontWeight: 500, marginBottom: 6, lineHeight: 1.3 }}>{cert.name}</div>
 
               <div style={{ display: 'flex', gap: 12, fontSize: 11, color: 'var(--text-muted)', marginBottom: 10 }}>
-                <span>⏱ {cert.durationHours}h</span>
-                <span>📚 {cert._count.modules} modules</span>
-                <span>✅ {cert.passScore}% seuil</span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><Clock size={12} strokeWidth={1.9} />{cert.durationHours}h</span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><BookOpen size={12} strokeWidth={1.9} />{cert._count.modules} modules</span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><Target size={12} strokeWidth={1.9} />{cert.passScore}% seuil</span>
               </div>
 
               {cert.enrolled ? (
