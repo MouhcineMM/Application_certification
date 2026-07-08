@@ -5,6 +5,13 @@
 
 :root {
   /* Brand */
+  --ink: #12151C;
+  --ink-soft: #1D212C;
+  --accent: #4ADEDE;
+  --accent-dk: #0C8F8F;
+  --accent-lt: #E3FBFB;
+
+  /* Semantic */
   --blue: #185FA5;
   --blue-lt: #E6F1FB;
   --blue-dk: #0C447C;
@@ -20,18 +27,23 @@
   --green-lt: #EAF3DE;
 
   /* Surfaces */
-  --surface-0: #f5f5f3;
-  --surface-1: #f1efea;
+  --surface-0: #F7F7F5;
+  --surface-1: #F1EFE8;
   --surface-2: #ffffff;
-  --border: #e5e3dc;
+  --border: #E5E3DC;
 
   /* Text */
-  --text-primary: #1a1a18;
+  --text-primary: #12151C;
   --text-secondary: #5c5c58;
   --text-muted: #9c9b95;
 
   /* Sidebar */
   --sidebar-w: 220px;
+  --sidebar-bg: #12151C;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-text: #9BA0AC;
+  --sidebar-text-active: #4ADEDE;
+  --sidebar-muted: #7A7F8C;
 }
 
 * {
@@ -45,6 +57,14 @@ body {
   line-height: 1.6;
 }
 
+.font-display {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -53,7 +73,7 @@ body {
 
 /* Focus visible */
 :focus-visible {
-  outline: 2px solid var(--blue);
+  outline: 2px solid var(--accent-dk);
   outline-offset: 2px;
   border-radius: 4px;
 }
