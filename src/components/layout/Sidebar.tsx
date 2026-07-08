@@ -3,6 +3,15 @@
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { signOut } from 'next-auth/react'
+import {
+  LayoutDashboard,
+  GraduationCap,
+  BarChart3,
+  ClipboardCheck,
+  TrendingUp,
+  Award,
+  LogOut,
+} from 'lucide-react'
 
 interface SidebarProps {
   user: {
@@ -13,11 +22,11 @@ interface SidebarProps {
 }
 
 const NAV_ITEMS = [
-  { href: '/dashboard', icon: '▦', label: 'Tableau de bord' },
-  { href: '/dashboard/catalog', icon: '🎓', label: 'Certifications' },
-  { href: '/dashboard/cert/pl-300', icon: '📊', label: 'PL-300 Power BI' },
-  { href: '/dashboard/exam', icon: '✏️', label: 'Examen blanc' },
-  { href: '/dashboard/progress', icon: '📈', label: 'Progression' },
+  { href: '/dashboard', icon: LayoutDashboard, label: 'Tableau de bord' },
+  { href: '/dashboard/catalog', icon: GraduationCap, label: 'Certifications' },
+  { href: '/dashboard/cert/pl-300', icon: BarChart3, label: 'PL-300 Power BI' },
+  { href: '/dashboard/exam', icon: ClipboardCheck, label: 'Examen blanc' },
+  { href: '/dashboard/progress', icon: TrendingUp, label: 'Progression' },
 ]
 
 export default function Sidebar({ user }: SidebarProps) {
@@ -30,8 +39,8 @@ export default function Sidebar({ user }: SidebarProps) {
   return (
     <nav style={{
       width: 220,
-      background: 'var(--surface-2)',
-      borderRight: '0.5px solid var(--border)',
+      background: 'var(--sidebar-bg)',
+      borderRight: '0.5px solid var(--sidebar-border)',
       display: 'flex',
       flexDirection: 'column',
       flexShrink: 0,
@@ -41,16 +50,17 @@ export default function Sidebar({ user }: SidebarProps) {
       height: '100vh',
     }}>
       {/* Logo */}
-      <div style={{ padding: '16px 14px 12px', borderBottom: '0.5px solid var(--border)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div style={{ padding: '16px 14px 12px', borderBottom: '0.5px solid var(--sidebar-border)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
           <div style={{
-            width: 28, height: 28, borderRadius: 6, background: '#185FA5',
+            width: 26, height: 26, borderRadius: 6, background: 'var(--accent)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 14,
-          }}>📊</div>
+          }}>
+            <Award size={15} color="var(--sidebar-bg)" strokeWidth={2.25} />
+          </div>
           <div>
-            <div style={{ fontWeight: 600, fontSize: 13, lineHeight: 1.2 }}>CertPrep Pro</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Espace formation</div>
+            <div className="font-display" style={{ fontWeight: 500, fontSize: 13, lineHeight: 1.2, color: '#F2F2F0', letterSpacing: '0.1px' }}>CertPrep</div>
+            <div style={{ fontSize: 10.5, color: 'var(--sidebar-muted)' }}>Espace formation</div>
           </div>
         </div>
       </div>
@@ -60,6 +70,7 @@ export default function Sidebar({ user }: SidebarProps) {
         {NAV_ITEMS.map(item => {
           const isActive = pathname === item.href ||
             (item.href !== '/dashboard' && pathname.startsWith(item.href))
+          const Icon = item.icon
           return (
             <Link
               key={item.href}
@@ -67,19 +78,19 @@ export default function Sidebar({ user }: SidebarProps) {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 9,
+                gap: 10,
                 padding: '7px 10px',
                 borderRadius: 6,
                 marginBottom: 2,
-                background: isActive ? 'var(--blue-lt)' : 'transparent',
-                color: isActive ? 'var(--blue-dk)' : 'var(--text-secondary)',
+                background: isActive ? 'rgba(74, 222, 222, 0.12)' : 'transparent',
+                color: isActive ? 'var(--sidebar-text-active)' : 'var(--sidebar-text)',
                 textDecoration: 'none',
                 fontSize: 13,
                 fontWeight: isActive ? 500 : 400,
                 transition: 'background 0.1s, color 0.1s',
               }}
             >
-              <span style={{ fontSize: 15, lineHeight: 1 }}>{item.icon}</span>
+              <Icon size={16} strokeWidth={1.75} style={{ flexShrink: 0 }} />
               {item.label}
             </Link>
           )
@@ -87,33 +98,35 @@ export default function Sidebar({ user }: SidebarProps) {
       </div>
 
       {/* User */}
-      <div style={{ padding: '12px 14px', borderTop: '0.5px solid var(--border)' }}>
+      <div style={{ padding: '12px 14px', borderTop: '0.5px solid var(--sidebar-border)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
           {user.image ? (
             <img src={user.image} alt="" style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover' }} />
           ) : (
             <div style={{
-              width: 28, height: 28, borderRadius: '50%', background: '#534AB7',
+              width: 28, height: 28, borderRadius: '50%', background: '#26215C',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 11, fontWeight: 600, color: '#fff', flexShrink: 0,
+              fontSize: 11, fontWeight: 600, color: '#7F77DD', flexShrink: 0,
             }}>{initials}</div>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 12, fontWeight: 500, lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <div style={{ fontSize: 12, fontWeight: 500, lineHeight: 1.2, color: '#F2F2F0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {user.name ?? user.email}
             </div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>245 XP • Niveau 3</div>
+            <div className="font-mono" style={{ fontSize: 10.5, color: 'var(--accent)', marginTop: 2 }}>245 XP · Niveau 3</div>
           </div>
         </div>
         <button
           onClick={() => signOut({ callbackUrl: '/login' })}
           style={{
-            width: '100%', padding: '5px 8px', borderRadius: 5,
-            border: '0.5px solid var(--border)', background: 'transparent',
-            fontSize: 11, color: 'var(--text-muted)', cursor: 'pointer',
+            width: '100%', display: 'flex', alignItems: 'center', gap: 6,
+            padding: '5px 8px', borderRadius: 5,
+            border: '0.5px solid var(--sidebar-border)', background: 'transparent',
+            fontSize: 11, color: 'var(--sidebar-muted)', cursor: 'pointer',
             fontFamily: 'inherit', textAlign: 'left',
           }}
         >
+          <LogOut size={12} strokeWidth={1.75} />
           Se déconnecter
         </button>
       </div>
