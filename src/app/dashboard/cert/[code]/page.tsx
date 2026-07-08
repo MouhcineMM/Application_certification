@@ -3,6 +3,8 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { PenLine, Check, CircleCheck } from 'lucide-react'
+import { CertIcon } from '@/lib/cert-icons'
 
 export default async function CertDetailPage({ params }: { params: { code: string } }) {
   const session = await auth()
@@ -48,21 +50,23 @@ export default async function CertDetailPage({ params }: { params: { code: strin
     <div style={{ padding: '20px 24px', maxWidth: 860 }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-        <div style={{ width: 44, height: 44, borderRadius: 10, background: cert.color + '18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>
-          {cert.icon}
+        <div style={{ width: 44, height: 44, borderRadius: 10, background: cert.color + '18', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <CertIcon icon={cert.icon} size={22} color={cert.color} />
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 18, fontWeight: 600 }}>{cert.code} — {cert.name}</div>
+          <div className="font-display" style={{ fontSize: 18, fontWeight: 500 }}>{cert.code} — {cert.name}</div>
           <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
             {cert.provider} • {cert.level} • {cert.durationHours}h estimées
           </div>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <Link href="/dashboard/exam" style={{
+            display: 'flex', alignItems: 'center', gap: 6,
             padding: '7px 14px', borderRadius: 6, background: cert.color,
             color: '#fff', textDecoration: 'none', fontSize: 12, fontWeight: 500,
           }}>
-            ✏️ Examen blanc
+            <PenLine size={13} strokeWidth={2} />
+            Examen blanc
           </Link>
         </div>
       </div>
@@ -102,7 +106,7 @@ export default async function CertDetailPage({ params }: { params: { code: strin
                     border: '0.5px solid ' + (done ? '#3B6D11' : 'var(--border)'),
                     fontSize: 11, fontWeight: 600, color: done ? '#3B6D11' : 'var(--text-muted)',
                   }}>
-                    {done ? '✓' : mod.order}
+                    {done ? <Check size={12} strokeWidth={2.5} /> : mod.order}
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 12, fontWeight: 500, color: done ? '#3B6D11' : 'var(--text-primary)' }}>{mod.title}</div>
@@ -146,8 +150,9 @@ export default async function CertDetailPage({ params }: { params: { code: strin
             <div style={{ background: 'var(--blue-lt)', border: '0.5px solid #c0d8f0', borderRadius: 10, padding: '14px' }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: '#0C447C', marginBottom: 6 }}>À propos de cette certification</div>
               <p style={{ fontSize: 12, color: '#1a3a5c', lineHeight: 1.6 }}>{cert.description}</p>
-              <div style={{ marginTop: 10, fontSize: 11, color: '#0C447C' }}>
-                ✅ Seuil de réussite : {cert.passScore}%
+              <div style={{ marginTop: 10, fontSize: 11, color: '#0C447C', display: 'flex', alignItems: 'center', gap: 5 }}>
+                <CircleCheck size={13} strokeWidth={1.9} />
+                Seuil de réussite : {cert.passScore}%
               </div>
             </div>
           )}
