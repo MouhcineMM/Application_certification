@@ -40,11 +40,11 @@ async function getDashboardData(userId: string) {
 }
 
 const DOMAIN_COLORS: Record<string, string> = {
-  'DAX': '#185FA5',
-  'Power Query': '#0F6E56',
-  'Modélisation des données': '#534AB7',
-  'Visualisation': '#BA7517',
-  'Service & Déploiement': '#A32D2D',
+  'DAX': '#2563EB',
+  'Power Query': '#334155',
+  'Modélisation des données': '#64748B',
+  'Visualisation': '#B45309',
+  'Service & Déploiement': '#B91C1C',
 }
 
 export default async function DashboardPage() {
@@ -79,12 +79,12 @@ export default async function DashboardPage() {
       {/* Métriques */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 20 }}>
         {[
-          { label: 'Certifications suivies', val: String(enrollments.length), Icon: GraduationCap, color: '#185FA5', bg: '#E6F1FB' },
-          { label: 'Score moyen', val: avgScore ? avgScore + '%' : '—', Icon: BarChart3, color: '#0F6E56', bg: '#E1F5EE' },
-          { label: 'Questions répondues', val: String(totalAnswers || 0), Icon: PenLine, color: '#534AB7', bg: '#EEEDFE' },
-          { label: 'Streak actuel', val: `${user?.streakDays ?? 0} j`, Icon: Flame, color: '#BA7517', bg: '#FAEEDA' },
+          { label: 'Certifications suivies', val: String(enrollments.length), Icon: GraduationCap, color: '#2563EB', bg: '#EFF6FF' },
+          { label: 'Score moyen', val: avgScore ? avgScore + '%' : '—', Icon: BarChart3, color: '#334155', bg: '#F1F5F9' },
+          { label: 'Questions répondues', val: String(totalAnswers || 0), Icon: PenLine, color: '#64748B', bg: '#F1F5F9' },
+          { label: 'Streak actuel', val: `${user?.streakDays ?? 0} j`, Icon: Flame, color: '#B45309', bg: '#FFFBEB' },
         ].map(m => (
-          <div key={m.label} style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '12px 14px' }}>
+          <div key={m.label} style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 14, padding: '12px 14px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
               <div style={{ width: 28, height: 28, borderRadius: 6, background: m.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <m.Icon size={15} strokeWidth={1.9} color={m.color} />
@@ -99,7 +99,7 @@ export default async function DashboardPage() {
       {/* Certifications + Historique */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 16 }}>
         {/* Certifications en cours */}
-        <div style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '14px 16px' }}>
+        <div style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 14, padding: '14px 16px' }}>
           <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 12 }}>Certifications en cours</div>
           {enrollments.length === 0 ? (
             <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>Aucune certification inscrite.</p>
@@ -119,22 +119,22 @@ export default async function DashboardPage() {
                         <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{cert.name.slice(0, 24)}</div>
                       </div>
                     </div>
-                    <span style={{ fontSize: 12, fontWeight: 500, color: progress >= 70 ? '#0F6E56' : '#185FA5' }}>{progress}%</span>
+                    <span style={{ fontSize: 12, fontWeight: 500, color: progress >= 70 ? '#334155' : '#2563EB' }}>{progress}%</span>
                   </div>
                   <div style={{ height: 4, background: 'var(--surface-1)', borderRadius: 3 }}>
-                    <div style={{ height: '100%', borderRadius: 3, background: progress >= 70 ? '#0F6E56' : '#185FA5', width: progress + '%', transition: 'width 0.5s' }} />
+                    <div style={{ height: '100%', borderRadius: 3, background: progress >= 70 ? '#334155' : '#2563EB', width: progress + '%', transition: 'width 0.5s' }} />
                   </div>
                 </div>
               )
             })
           )}
-          <Link href="/dashboard/catalog" style={{ marginTop: 6, fontSize: 12, color: '#185FA5', textDecoration: 'none', display: 'inline-block' }}>
+          <Link href="/dashboard/catalog" style={{ marginTop: 6, fontSize: 12, color: '#2563EB', textDecoration: 'none', display: 'inline-block' }}>
             Voir tout le catalogue →
           </Link>
         </div>
 
         {/* Historique examens */}
-        <div style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '14px 16px' }}>
+        <div style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 14, padding: '14px 16px' }}>
           <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 12 }}>Derniers examens</div>
           {examSessions.length === 0 ? (
             <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12 }}>Aucun examen passé.</p>
@@ -149,8 +149,8 @@ export default async function DashboardPage() {
                 </div>
                 <span style={{
                   fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 10,
-                  background: session.passed ? '#EAF3DE' : '#FCEBEB',
-                  color: session.passed ? '#3B6D11' : '#A32D2D',
+                  background: session.passed ? '#F0FDF4' : '#FEF2F2',
+                  color: session.passed ? '#15803D' : '#B91C1C',
                 }}>
                   {session.passed ? 'Réussi' : 'Échoué'}
                 </span>
@@ -170,7 +170,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Performance par domaine */}
-      <div style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '14px 16px' }}>
+      <div style={{ background: 'var(--surface-2)', border: '0.5px solid var(--border)', borderRadius: 14, padding: '14px 16px' }}>
         <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 12 }}>Performance par domaine</div>
         {domainStats.length === 0 ? (
           <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>Commencez un examen pour voir vos statistiques par domaine.</p>
@@ -178,7 +178,7 @@ export default async function DashboardPage() {
           <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(domainStats.length, 5)}, 1fr)`, gap: 8 }}>
             {domainStats.map((d: any) => {
               const score = Number(d.total) > 0 ? Math.round(Number(d.correct) / Number(d.total) * 100) : 0
-              const color = DOMAIN_COLORS[d.domain] ?? '#185FA5'
+              const color = DOMAIN_COLORS[d.domain] ?? '#2563EB'
               const circumference = 2 * Math.PI * 19
               return (
                 <div key={d.domain} style={{ textAlign: 'center' }}>
