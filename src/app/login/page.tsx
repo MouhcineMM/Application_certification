@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { Award } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -51,11 +52,13 @@ export default function LoginPage() {
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
           <div style={{
             width: 44, height: 44, borderRadius: 10,
-            background: '#185FA5', display: 'inline-flex',
+            background: 'var(--ink)', display: 'inline-flex',
             alignItems: 'center', justifyContent: 'center',
-            fontSize: 22, marginBottom: 12,
-          }}>📊</div>
-          <div style={{ fontSize: 20, fontWeight: 600, marginBottom: 4 }}>CertPrep Pro</div>
+            marginBottom: 12,
+          }}>
+            <Award size={22} color="var(--accent)" strokeWidth={2} />
+          </div>
+          <div className="font-display" style={{ fontSize: 20, fontWeight: 500, marginBottom: 4 }}>CertPrep</div>
           <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>Connectez-vous à votre espace formation</div>
         </div>
 
@@ -107,8 +110,9 @@ export default function LoginPage() {
             disabled={loading}
             style={{
               width: '100%', padding: '9px', borderRadius: 7,
-              background: loading ? 'var(--border)' : '#185FA5',
-              color: '#fff', border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
+              background: loading ? 'var(--border)' : 'var(--ink)',
+              color: loading ? 'var(--text-muted)' : 'var(--accent)',
+              border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
               fontSize: 13, fontWeight: 500, fontFamily: 'inherit',
               transition: 'background 0.15s',
             }}
@@ -118,11 +122,11 @@ export default function LoginPage() {
         </form>
 
         <div style={{
-          marginTop: 20, padding: '12px', background: 'var(--blue-lt)',
-          borderRadius: 6, fontSize: 11, color: 'var(--blue-dk)', textAlign: 'center',
+          marginTop: 20, padding: '12px', background: 'var(--surface-1)',
+          borderRadius: 6, fontSize: 11, color: 'var(--text-secondary)', textAlign: 'center',
         }}>
-          <strong>Compte démo</strong><br />
-          demo@certprep.fr / password123
+          <span style={{ fontWeight: 500, color: 'var(--text-primary)' }}>Compte démo</span><br />
+          <span className="font-mono">demo@certprep.fr / password123</span>
         </div>
       </div>
     </div>
